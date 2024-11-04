@@ -17,6 +17,7 @@ sends email notifications at each stage of the workflow.
 - [Frontend Components](#frontend-components)
 - [Setup Instructions](#setup-instructions)
 - [Usage Guide](#usage-guide)
+- [Implementation Notes](#implementation-notes)
 
 ## Overview
 
@@ -95,8 +96,8 @@ application with three microservices:
 
 2. **Environment Setup**:
 
-   - Create `.env` files in each service directory.
-   - Add the following variables:
+   - Create `.env` files in each service directory as per the configuration
+     below:
 
      #### `auth-service/.env`
 
@@ -182,7 +183,50 @@ application with three microservices:
 4. **View Request Status**:
    - Requesters can log in to check the status of their requests.
 
----
+## Implementation Notes
 
-This documentation provides a full guide for setup, configuration, and usage of
-the Belzir Project.
+### Step-by-Step Guidance for Setup and Execution
+
+1. **Setting Up Google OAuth**:
+
+   - Go to the [Google Cloud Console](https://console.cloud.google.com/).
+   - Create a new project or select an existing one.
+   - Go to **APIs & Services** > **Credentials** and create an OAuth 2.0 Client
+     ID.
+   - Set the **Authorized redirect URIs** to `http://localhost:3000` (or the
+     domain where your frontend is hosted).
+   - Copy the **Client ID** and paste it in the `GOOGLE_CLIENT_ID` variables in
+     both `auth-service/.env` and `frontend/.env` files.
+
+2. **Email Configuration for Notifications**:
+
+   - Use a Gmail account and enable
+     [Less Secure App Access](https://myaccount.google.com/lesssecureapps).
+   - Set the email and password in the `notification-service/.env` file.
+
+3. **MongoDB Setup**:
+
+   - You can use [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) or a local
+     MongoDB instance.
+   - Set the `MONGO_URI` variable in the `request-service/.env` file with your
+     connection string.
+
+4. **Environment Variables**:
+   - Ensure all `.env` files are correctly configured with secrets and service
+     URLs.
+   - The URLs should point to `localhost` for local development.
+
+### Key Points to Test
+
+- **User Login and Logout**: Ensure emails are sent upon successful login and
+  logout.
+- **Request Creation**: Confirm emails are sent to the requester and superior
+  after a new request is created.
+- **Request Approval/Rejection**: Verify emails notify both parties upon request
+  approval/rejection.
+- **Dashboard Functionality**: Confirm requests display correctly for both
+  requester and superior with accurate statuses.
+
+This README provides detailed guidance for setting up, configuring, and
+executing the application. Following these instructions will enable your
+colleague to run the Belzir Project successfully.
